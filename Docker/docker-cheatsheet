@@ -1,0 +1,118 @@
+--A whole know-how and cheatsheet to start with docker--
+
+
+Docker
+
+-It has a container that will store all the resources and necessary softwares
+
+-It has an ecosystem that includes Docker client,Docker server, Docker Machine,Dockerhub Docker 
+ compose etc
+
+ -Docker Client
+ is a tool where we issue commands to for reaching out to docker daemon
+
+ -Docker daemon(Server)
+ is a service that runs on your operating system
+ .It is responsible for running containers
+
+ -Docker Client
+   |Docker client will communicate for the host with Docker server
+
+   -Dockerfile
+   it contains all the information for running our software in a base container
+
+   -IMAGE                         CONTAINER
+   -Its just a file that          - Container has all the 
+   has instructions what     	resources assigned 
+   to do                          -It has some set of isolated set of hardware    resources
+
+   -It has a FS snapshot(files and folder
+    of software)
+     and startup command
+
+
+     -Whenever you run an image command docker will look for the image in local system(CACHE)
+
+
+     COMMANDS
+     docker run image name 
+     meaning
+     docker run = docker create + docker start
+      
+      docker run -a containerid
+
+      what -a will do is output the containers response
+
+      docker ps
+      - will list all the container 
+       with startup command
+
+       docker ps --all
+       will list all the container with stopped containers
+
+       docker stop containerid
+       will stop container
+       --forced kill
+       docker kill containerid
+
+       docker logs containerid
+       -- will fetch logs
+
+       To get inside the image type in
+       docker exec -i(connecting us to STDIN) -t(formats the output) sh(command we want to run)
+       docker exec -i -t containerid sh
+
+       -a = user tells docker to show whatever is being carried out in docker
+
+       -i = helps user to redirect inp/op into the container
+
+       We pull images from dockerhub
+
+
+       DOCKER-FLOW
+
+       Plaintext    Machine            
+       dockerfile->docker-client->docker-server->Usable image
+
+       CUSTOM IMAGES USING DOCKERFILE
+
+       #step1 specify the base image
+
+       FROM alpine
+
+       #step2 Download and install dependencies
+       RUN apk add --update redis
+
+
+       #step3 Setup the startup command
+       CMD ["redis-server"] 
+
+
+       TO BUILD IMAGE
+
+       docker build . -t imagename
+
+       docker build -t dockusername/imagename : version .
+
+
+       TO 
+       DOCKER COMMIT
+
+       docker commit -c 'CMD "redis-server"' containerid
+
+        docker run -d -p 8089:80 imagename
+	docker run -dp 3000:3000 getting-started
+	Remember the -d and -p flags? We’re running the new container in “detached” mode
+	 (in the background) and creating a mapping between the host’s port 3000 to the container’s port 3000. 
+	 Without the port mapping, we wouldn’t be able to access the application.
+
+	 TO clear all the killed container
+	 docker system prune
+
+	 To copy and paste files from container to our machine
+	 docker cp containerid:filename nameyouwanttogivetofile
+
+	 and vice versa
+
+	 docker cp filename containerid: nameyouwanttogivetofile  
+
